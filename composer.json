@@ -1,0 +1,29 @@
+{
+    "name": "mingalevme/illuminate-uqueue",
+    "description": "Laravel/Lumen uniqueable queues (Database, Redis)",
+    "keywords": [
+        "laravel",
+        "lumen",
+        "queue",
+        "uniqueable"
+    ],
+    "homepage": "https://github.com/mingalevme/illuminate-uqueue",
+    "version": "0.0.1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mingalev Mikhail",
+            "email": "mingalevme@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "illuminate/queue": "5.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mingalevme\\Illuminate\\UQueue\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
