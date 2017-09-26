@@ -23,7 +23,7 @@ class UQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
         $this->app->alias('queue', 'Illuminate\Contracts\Queue\Factory');
         $this->app->alias('queue', 'Illuminate\Contracts\Queue\Queue');
         
-        $this->app->bind(\Illuminate\Queue\Connectors\RedisConnector::class, RedisConnector::class);
+        //$this->app->bind(\Illuminate\Queue\Connectors\RedisConnector::class, RedisConnector::class);
         $this->app->bind(\Illuminate\Queue\Connectors\DatabaseConnector::class, DatabaseConnector::class);
         
         $this->app->configure('queue');
@@ -40,9 +40,10 @@ class UQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
     protected function registerRedisConnector($manager)
     {
         $manager->addConnector('redis', function () {
-            return $this->app->make(\Illuminate\Queue\Connectors\RedisConnector::class, [
+            return new RedisConnector($this->app['redis']);
+            /*return $this->app->make(\Illuminate\Queue\Connectors\RedisConnector::class, [
                 $this->app['redis'],
-            ]);
+            ]);*/
         });
     }
 
