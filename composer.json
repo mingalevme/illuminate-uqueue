@@ -18,7 +18,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "illuminate/queue": "5.5.*"
+        "illuminate/queue": "^5.5"
     },
     "require-dev": {
         "laravel/lumen": "^5.0",
