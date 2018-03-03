@@ -8,7 +8,6 @@
         "uniqueable"
     ],
     "homepage": "https://github.com/mingalevme/illuminate-uqueue",
-    "version": "0.0.1",
     "license": "MIT",
     "authors": [
         {
@@ -40,6 +39,11 @@
         "classmap": [
             "migrations"
         ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
     },
     "minimum-stability": "dev"
 }
