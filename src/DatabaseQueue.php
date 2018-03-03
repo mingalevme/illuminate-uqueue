@@ -147,7 +147,7 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
             // pass
         } elseif ($driver === 'sqlite' && in_array($ecode, [19, 2067])) {
             // pass
-        } elseif ($driver === 'mysql' && in_array($ecode, [1062])) {
+        } elseif ($driver === 'mysql' && in_array($ecode, [23000, 1062])) {
             // pass
         } elseif ($driver === 'sqlsrv' && in_array($ecode, [2601, 2627])) {
             // pass

@@ -20,10 +20,26 @@
         "php": ">=7.0",
         "illuminate/queue": "5.5.*"
     },
+    "require-dev": {
+        "laravel/lumen": "^5.0",
+        "laravel/laravel": "^5.0",
+        "phpunit/phpunit": "~6.0",
+        "mockery/mockery": "^1.0",
+        "predis/predis": "^2.0@dev",
+        "phpunit/php-code-coverage": "^5.2@dev"
+    },
     "autoload": {
         "psr-4": {
             "Mingalevme\\Illuminate\\UQueue\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Mingalevme\\Tests\\Illuminate\\UQueue\\": "tests/"
+        },
+        "classmap": [
+            "migrations"
+        ]
     },
     "minimum-stability": "dev"
 }

@@ -5,7 +5,7 @@ namespace Mingalevme\Illuminate\UQueue;
 use Mingalevme\Illuminate\UQueue\Connectors\RedisConnector;
 use Mingalevme\Illuminate\UQueue\Connectors\DatabaseConnector;
 
-class UQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
+class LumenUQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
 {
     /**
      * Register the queue manager.
