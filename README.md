@@ -1,5 +1,5 @@
 # illuminate-uqueue
-Provides support for uniqueable queues for Laravel/Lumen 5.5.
+Provides support for uniqueable queues for Laravel/Lumen 5.5 and higher.
 
 # Supported drivers:
 - Database
@@ -7,8 +7,8 @@ Provides support for uniqueable queues for Laravel/Lumen 5.5.
 
 # Installation
 
-1. Register the service provider ```\Mingalevme\Illuminate\UQueue\UQueueServiceProvider::class```.
-2. If you plan to use the database as a driver you shoud add the migration (change the table name if necessary):
+1. Register the appropriate service provider ```\Mingalevme\Illuminate\UQueue\LaravelUQueueServiceProvider::class``` or ```\Mingalevme\Illuminate\UQueue\LumenUQueueServiceProvider::class```.
+2. If you plan to use the database as a driver you should add the migration (change the table name if necessary):
 ```php
 <?php // /src/migrations/2017_01_01_000002_jobs_add_uniqueable.php
 
@@ -24,10 +24,12 @@ class JobsAddUniqueable extends Migration
      */
     public function up()
     {
-        Schema::table('jobs', function($table) {
-            $table->text('unique_id')->nullable();
-            $table->unique(['queue', 'unique_id'], 'jobs_queue_unique_id_unique');
-        });
+        if (!Schema::hasColumn('jobs', 'unique_id')) {
+            Schema::table('jobs', function($table) {
+                $table->string('unique_id')->nullable();
+                $table->unique(['queue', 'unique_id'], 'jobs_queue_unique_id_unique');
+            });
+        }
     }
 
     /**
@@ -37,10 +39,12 @@ class JobsAddUniqueable extends Migration
      */
     public function down()
     {
-        Schema::table('jobs', function (Blueprint $table) {
-            $table->dropUnique('jobs_queue_unique_id_unique');
-            $table->dropColumn('unique_id');
-        });
+        if (Schema::hasColumn('jobs', 'unique_id')) {
+            Schema::table('jobs', function (Blueprint $table) {
+                $table->dropUnique('jobs_queue_unique_id_unique');
+                $table->dropColumn('unique_id');
+            });
+        }
     }
 }
 
