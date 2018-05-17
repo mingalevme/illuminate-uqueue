@@ -48,7 +48,7 @@ class LaravelUQueueServiceProvider extends QueueServiceProvider
     protected function registerRedisConnector($manager)
     {
         $manager->addConnector('redis', function () {
-            return $this->app->make(\Illuminate\Queue\Connectors\RedisConnector::class);
+            return new RedisConnector($this->app['db']);
         });
     }
 
@@ -61,7 +61,7 @@ class LaravelUQueueServiceProvider extends QueueServiceProvider
     protected function registerDatabaseConnector($manager)
     {
         $manager->addConnector('database', function () {
-            return $this->app->make(\Illuminate\Queue\Connectors\DatabaseConnector::class);
+            return new DatabaseConnector($this->app['db']);
         });
     }
 }
