@@ -40,5 +40,12 @@
             "migrations"
         ]
     },
+	 "extra": {
+        "laravel": {
+            "providers": [
+                "Mingalevme\\Illuminate\\UQueue\\LaravelUQueueServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "dev"
 }

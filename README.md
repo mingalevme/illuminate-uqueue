@@ -8,7 +8,11 @@ Provides support for uniqueable queues for Laravel/Lumen 5.5 and higher.
 # Installation
 
 1. ```composer require mingalevme/illuminate-uqueue```
-2. Register the appropriate service provider ```\Mingalevme\Illuminate\UQueue\LaravelUQueueServiceProvider::class``` or ```\Mingalevme\Illuminate\UQueue\LumenUQueueServiceProvider::class```.
+2. In Laravel 5.5, the service provider and facade will automatically get registered.
+
+For older versions of the framework or Lumen, follow the steps below:
+   
+   Register the appropriate service provider ```\Mingalevme\Illuminate\UQueue\LaravelUQueueServiceProvider::class``` or ```\Mingalevme\Illuminate\UQueue\LumenUQueueServiceProvider::class```.
 3. If you plan to use the database as a driver you should add the migration (change the table name if necessary):
 ```php
 <?php // /src/migrations/2017_01_01_000002_jobs_add_uniqueable.php
