@@ -45,7 +45,7 @@ class LumenUQueueServiceProvider extends QueueServiceProvider
     protected function registerRedisConnector($manager)
     {
         $manager->addConnector('redis', function () {
-            return new UQueueRedisConnector($this->app['db']);
+            return new UQueueRedisConnector($this->app['redis']);
         });
     }
 
