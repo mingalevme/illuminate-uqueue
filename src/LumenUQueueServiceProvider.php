@@ -2,10 +2,13 @@
 
 namespace Mingalevme\Illuminate\UQueue;
 
-use Mingalevme\Illuminate\UQueue\Connectors\RedisConnector;
-use Mingalevme\Illuminate\UQueue\Connectors\DatabaseConnector;
+use Illuminate\Queue\Connectors\DatabaseConnector as IlluminateDatabaseConnector;
+use Illuminate\Queue\Connectors\RedisConnector as IlluminateRedisConnector;
+use Illuminate\Queue\QueueServiceProvider;
+use Mingalevme\Illuminate\UQueue\Connectors\RedisConnector as UQueueRedisConnector;
+use Mingalevme\Illuminate\UQueue\Connectors\DatabaseConnector as UQueueDatabaseConnector;
 
-class LumenUQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
+class LumenUQueueServiceProvider extends QueueServiceProvider
 {
     /**
      * Register the queue manager.
@@ -25,8 +28,8 @@ class LumenUQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
         
         $this->app->alias('redis', 'Illuminate\Contracts\Redis\Factory');
         
-        $this->app->bind(\Illuminate\Queue\Connectors\RedisConnector::class, RedisConnector::class);
-        $this->app->bind(\Illuminate\Queue\Connectors\DatabaseConnector::class, DatabaseConnector::class);
+        $this->app->bind(IlluminateRedisConnector::class, UQueueRedisConnector::class);
+        $this->app->bind(IlluminateDatabaseConnector::class, UQueueDatabaseConnector::class);
         
         $this->app->configure('queue');
         
@@ -42,7 +45,7 @@ class LumenUQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
     protected function registerRedisConnector($manager)
     {
         $manager->addConnector('redis', function () {
-            return new RedisConnector($this->app['db']);
+            return new UQueueRedisConnector($this->app['db']);
         });
     }
 
@@ -55,7 +58,7 @@ class LumenUQueueServiceProvider extends \Illuminate\Queue\QueueServiceProvider
     protected function registerDatabaseConnector($manager)
     {
         $manager->addConnector('database', function () {
-            return new DatabaseConnector($this->app['db']);
+            return new UQueueDatabaseConnector($this->app['db']);
         });
     }
 }
