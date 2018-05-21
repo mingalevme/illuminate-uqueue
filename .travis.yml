@@ -13,7 +13,7 @@ before_install:
   - docker pull postgres:9.5
   - docker run --name postgres-lumen-uqueue -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres:9.5
   - docker pull redis
-  - docker run --name redis-lumen-uqueue -d -p 63790:6379 redis
+  - docker run --name redis-lumen-uqueue -d -p 6379:6379 redis
   - mkdir -p /tmp/coverage
 
 install:
