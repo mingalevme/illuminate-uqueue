@@ -1,5 +1,6 @@
 # Composer files
 composer.phar
+composer.lock
 vendor/
 
 # Local configs
@@ -16,4 +17,5 @@ data/tmp/
 temp/
 
 .idea/
+coverage.xml
 

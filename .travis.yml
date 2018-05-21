@@ -1,0 +1,29 @@
+sudo: required
+
+services:
+  - docker
+
+language: php
+
+php:
+  - '7.1'
+  - '7.2'
+
+before_install:
+  - docker pull postgres:9.5
+  - docker run --name postgres-lumen-uqueue -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres:9.5
+  - docker pull redis
+  - docker run --name redis-lumen-uqueue -d -p 63790:6379 redis
+  - mkdir -p /tmp/coverage
+
+install:
+  - travis_retry composer self-update
+  - travis_retry composer install --no-interaction --prefer-source
+
+script:
+  - vendor/bin/phpunit --coverage-php /tmp/coverage/laravel.cov tests/LaravelTest.php
+  - vendor/bin/phpunit --coverage-php /tmp/coverage/lumen.cov tests/LumenTest.php
+
+after_success:
+  - vendor/bin/phpcov merge /tmp/coverage --clover coverage.xml
+  - bash <(curl -s https://codecov.io/bash)

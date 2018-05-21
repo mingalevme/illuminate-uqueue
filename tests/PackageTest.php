@@ -17,7 +17,7 @@ trait PackageTest
 
         $this->assertNotNull($id1);
         $this->assertNotNull($id2);
-        $this->assertSame($id1, $id2);
+        $this->assertSame((string) $id1, (string) $id2);
 
         $this->assertCount(1, DB::select('SELECT * FROM jobs'));
 
