@@ -1,6 +1,12 @@
 # illuminate-uqueue
 Provides support for uniqueable queues for Laravel/Lumen 5.5 and higher.
 
+# Travis CI
+[![Build Status](https://travis-ci.org/mingalevme/illuminate-uqueue.svg?branch=master)](https://travis-ci.org/mingalevme/illuminate-uqueue)
+
+# Codecov
+[![codecov](https://codecov.io/gh/mingalevme/illuminate-uqueue/branch/master/graph/badge.svg)](https://codecov.io/gh/mingalevme/illuminate-uqueue)
+
 # Supported drivers:
 - Database
 - Redis (Based on Sorted Sets)
