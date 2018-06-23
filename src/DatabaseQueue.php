@@ -38,7 +38,7 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
      */
     protected function buildDatabaseRecord($queue, $payload, $availableAt, $attempts = 0)
     {
-        $record = parent::buildDatabaseRecord($queue, $this->jsonize($payload), $availableAt, $attempts);
+        $record = parent::buildDatabaseRecord($queue, $payload, $availableAt, $attempts);
         
         if (isset($payload['unique_id'])) {
             $record['unique_id'] = $payload['unique_id'];
@@ -50,63 +50,10 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
     }
 
     /**
-     * Push a new job onto the queue.
-     *
-     * @param  string  $job
-     * @param  mixed   $data
-     * @param  string  $queue
-     * @return mixed
-     */
-    public function push($job, $data = '', $queue = null)
-    {
-        return $this->pushToDatabase($queue, $this->createPayloadArray($job, $data));
-    }
-
-    /**
-     * Push a raw payload onto the queue.
-     *
-     * @param  string  $payload
-     * @param  string  $queue
-     * @param  array   $options
-     * @return mixed
-     */
-    public function pushRaw($payload, $queue = null, array $options = [])
-    {
-        return $this->pushToDatabase($queue, json_decode($payload, true));
-    }
-
-    /**
-     * Push a new job onto the queue after a delay.
-     *
-     * @param  \DateTimeInterface|\DateInterval|int  $delay
-     * @param  string  $job
-     * @param  mixed   $data
-     * @param  string  $queue
-     * @return void
-     */
-    public function later($delay, $job, $data = '', $queue = null)
-    {
-        return $this->pushToDatabase($queue, $this->createPayloadArray($job, $data), $delay);
-    }
-
-    /**
-     * Release a reserved job back onto the queue.
-     *
-     * @param  string  $queue
-     * @param  \Illuminate\Queue\Jobs\DatabaseJobRecord  $job
-     * @param  int  $delay
-     * @return mixed
-     */
-    public function release($queue, $job, $delay)
-    {
-        return $this->pushToDatabase($queue, json_decode($job->payload, true), $delay, $job->attempts);
-    }
-
-    /**
      * Push a raw payload to the database with a given delay.
      *
      * @param  string  $queue
-     * @param  array   $payload
+     * @param  string  $payload
      * @param  \DateTime|int  $delay
      * @param  int  $attempts
      * @return mixed
@@ -116,7 +63,7 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
         $uniqueId = array_get($payload, 'unique_id');
         
         if (!$uniqueId) {
-            return parent::pushToDatabase($queue, $this->jsonize($payload), $delay, $attempts);
+            return parent::pushToDatabase($queue, $payload, $delay, $attempts);
         }
         
         while (true) {
@@ -154,27 +101,5 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
         } else {
             throw $e;
         }
-    }
-
-    /**
-     * Create a json string from the given array.
-     *
-     * @param  string  $job
-     * @param  mixed   $data
-     * @return string
-     *
-     * @throws \Illuminate\Queue\InvalidPayloadException
-     */
-    protected function jsonize($data)
-    {
-        $json = json_encode($data);
-
-        if (\JSON_ERROR_NONE !== json_last_error()) {
-            throw new InvalidPayloadException(
-                'Unable to JSON encode payload. Error code: '.json_last_error()
-            );
-        }
-
-        return $json;
     }
 }
