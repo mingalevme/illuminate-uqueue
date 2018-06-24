@@ -9,11 +9,13 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Mingalevme\Illuminate\UQueue\Jobs\Uniqueable;
 
-class Job implements Uniqueable, ShouldQueue
+class UniqueableJob implements Uniqueable, ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $data;
+
+    public static $test;
 
     public function __construct($data)
     {
@@ -27,6 +29,6 @@ class Job implements Uniqueable, ShouldQueue
 
     public function handle()
     {
-        // pass
+        static::$test = true;
     }
 }

@@ -19,11 +19,11 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
     protected function createPayloadArray($job, $data = '', $queue = null)
     {
         $payload = parent::createPayloadArray($job, $data, $queue);
-        
+
         if (is_object($job) && $job instanceof Uniqueable) {
             $payload['unique_id'] = $job->uniqueable();
         }
-        
+
         return $payload;
     }
 
@@ -39,13 +39,13 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
     protected function buildDatabaseRecord($queue, $payload, $availableAt, $attempts = 0)
     {
         $record = parent::buildDatabaseRecord($queue, $this->jsonize($payload), $availableAt, $attempts);
-        
+
         if (isset($payload['unique_id'])) {
             $record['unique_id'] = $payload['unique_id'];
         } else {
             $record['unique_id'] = \Illuminate\Support\Str::random(32);
         }
-        
+
         return $record;
     }
 
@@ -114,11 +114,7 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
     protected function pushToDatabase($queue, $payload, $delay = 0, $attempts = 0)
     {
         $uniqueId = array_get($payload, 'unique_id');
-        
-        if (!$uniqueId) {
-            return parent::pushToDatabase($queue, $this->jsonize($payload), $delay, $attempts);
-        }
-        
+
         while (true) {
             try {
                 return $this->database->table($this->table)->insertGetId($this->buildDatabaseRecord(
@@ -127,17 +123,17 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
             } catch (QueryException $e) {
                 $this->handleQueryException($e);
             }
-            
+
             $query = $this->database->table($this->table)
-                    ->where('unique_id', $uniqueId)
-                    ->where('queue', $this->getQueue($queue));
-            
+                ->where('unique_id', $uniqueId)
+                ->where('queue', $this->getQueue($queue));
+
             if (count($results = $query->get(['id']))) {
                 return $results[0]->id;
             }
         }
     }
-    
+
     protected function handleQueryException(QueryException $e)
     {
         $driver = $this->database->getDriverName();
