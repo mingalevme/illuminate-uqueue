@@ -36,17 +36,18 @@ class RedisQueue extends \Illuminate\Queue\RedisQueue
 
         return json_decode($payload, true)['id'] ?? null;
     }
-    
+
     /**
      * Create a payload string from the given job and data.
      *
      * @param  string  $job
+     * @param  string  $queue
      * @param  mixed   $data
      * @return string
      */
-    protected function createPayloadArray($job, $data = '')
+    protected function createPayloadArray($job, $queue, $data = '')
     {
-        $payload = parent::createPayloadArray($job, $data);
+        $payload = parent::createPayloadArray($job, $queue, $data);
         
         if (is_object($job) && $job instanceof Uniqueable) {
             $payload['id'] = $job->uniqueable();
