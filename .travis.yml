@@ -26,9 +26,9 @@ before_install:
 install:
   - travis_retry composer self-update
   - composer global require hirak/prestissimo
-  - travis_retry composer require --dev --no-interaction laravel/lumen:${ILLUMINATE_VERSION}
-  - travis_retry composer require --dev --no-interaction laravel/laravel:${ILLUMINATE_VERSION}
-  - travis_retry composer install --no-interaction --prefer-source
+  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer require --dev --no-interaction laravel/lumen:${ILLUMINATE_VERSION}
+  - COMPOSER_MEMORY_LIMIT=-1travis_retry composer require --dev --no-interaction laravel/laravel:${ILLUMINATE_VERSION}
+  - COMPOSER_MEMORY_LIMIT=-1travis_retry composer install --no-interaction --prefer-source
 
 script:
   - vendor/bin/phpunit --coverage-php /tmp/coverage/laravel.cov tests/LaravelTest.php
