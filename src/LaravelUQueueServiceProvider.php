@@ -2,9 +2,6 @@
 
 namespace Mingalevme\Illuminate\UQueue;
 
-use Illuminate\Contracts\Queue\Factory;
-use Illuminate\Contracts\Queue\Queue;
-use Illuminate\Contracts\Redis\Factory as RedisFactory;
 use Illuminate\Queue\Connectors\DatabaseConnector as IlluminateDatabaseConnector;
 use Illuminate\Queue\Connectors\RedisConnector as IlluminateRedisConnector;
 use Illuminate\Queue\QueueServiceProvider;
@@ -13,28 +10,11 @@ use Mingalevme\Illuminate\UQueue\Connectors\DatabaseConnector as UQueueDatabaseC
 
 class LaravelUQueueServiceProvider extends QueueServiceProvider
 {
-    /**
-     * Register the queue manager.
-     *
-     * @return void
-     */
-    protected function registerManager()
+    public function register()
     {
-        unset($this->app['queue']);
-        unset($this->app['queue.connection']);
-        unset($this->app[Factory::class]);
-        unset($this->app[Queue::class]);
-
-        $this->app->alias('queue', 'queue.connection');
-        $this->app->alias('queue', Factory::class);
-        $this->app->alias('queue', Queue::class);
-
-        $this->app->alias('redis', RedisFactory::class);
-
         $this->app->bind(IlluminateRedisConnector::class, UQueueRedisConnector::class);
         $this->app->bind(IlluminateDatabaseConnector::class, UQueueDatabaseConnector::class);
-
-        parent::registerManager();
+        parent::register();
     }
 
     /**

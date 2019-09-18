@@ -3,6 +3,7 @@
 namespace Mingalevme\Tests\Illuminate\UQueue;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Redis\RedisServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
 use Mingalevme\Illuminate\UQueue\LaravelUQueueServiceProvider;
@@ -23,7 +24,7 @@ class LaravelTest extends LaravelTestCase
         $app->make(Kernel::class)->bootstrap();
         $app->register(RedisServiceProvider::class);
         $app->register(LaravelUQueueServiceProvider::class);
-        $app->alias('db', 'Illuminate\Database\ConnectionResolverInterface');
+        $app->alias('db', ConnectionResolverInterface::class);
         return $app;
     }
 }

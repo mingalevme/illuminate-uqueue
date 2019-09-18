@@ -8,10 +8,11 @@ language: php
 php:
   - '7.2'
   - '7.3'
+
 env:
-  - ILLUMINATE_VERSION="^5.0"
-  - ILLUMINATE_VERSION="^6.0" REDIS_CLIENT="predis"
-  - ILLUMINATE_VERSION="^6.0" REDIS_CLIENT="phpredis"
+  - ILLUMINATE_VERSION="5"
+  - ILLUMINATE_VERSION="6" REDIS_CLIENT="predis"
+  - ILLUMINATE_VERSION="6" REDIS_CLIENT="phpredis"
 
 before_install:
   - docker pull postgres:latest
@@ -21,13 +22,14 @@ before_install:
   - docker pull redis:latest
   - docker run --name redis -d -p 63790:6379 redis:latest
   - mkdir -p /tmp/coverage
+  - export PHP_VERSION=`php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;"`
 
 install:
   - travis_retry composer self-update
   - composer global require hirak/prestissimo
-  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer require --dev --no-interaction laravel/lumen:${ILLUMINATE_VERSION}
-  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer require --dev --no-interaction laravel/laravel:${ILLUMINATE_VERSION}
-  - COMPOSER_MEMORY_LIMIT=-1 travis_retry composer install --no-interaction --prefer-source
+  - cp tests/composer-illuminate-${ILLUMINATE_VERSION}.json composer.json
+  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-source
+#  - COMPOSER_MEMORY_LIMIT=-1 composer require --no-interaction laravel/${ILLUMINATE_FRAMEWORK,,}:^${ILLUMINATE_VERSION}.0
 
 script:
   - vendor/bin/phpunit --coverage-php /tmp/coverage/laravel.cov tests/LaravelTest.php

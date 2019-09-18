@@ -23,7 +23,6 @@
         <env name="APP_ENV" value="testing" />
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
-        <env name="REDIS_CLIENT" value="predis" />
         <env name="REDIS_PORT" value="63790" />
     </php>
     <!--logging>
