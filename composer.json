@@ -25,8 +25,7 @@
         "mockery/mockery": "^1.0",
         "predis/predis": "^2.0",
         "doctrine/dbal": "^2.8",
-        "phpunit/phpcov": "^5.0@dev",
-        "laravel/laravel": "^5.0"
+        "phpunit/phpcov": "^5.0@dev"
     },
     "autoload": {
         "psr-4": {
