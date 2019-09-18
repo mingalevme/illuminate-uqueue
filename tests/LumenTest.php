@@ -44,25 +44,8 @@ class LumenTest extends LumenTestCase
 
         $app->register(LumenUQueueServiceProvider::class);
 
+        $app->configure('database');
+
         return $app;
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        (new \JobsAddUniqueable())->down();
-        (new \CreateJobsTable())->down();
-
-        (new \CreateJobsTable())->up();
-        (new \JobsAddUniqueable())->up();
-    }
-
-    public function tearDown()
-    {
-        (new \JobsAddUniqueable())->down();
-        (new \CreateJobsTable())->down();
-
-        parent::tearDown();
     }
 }

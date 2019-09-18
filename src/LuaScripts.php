@@ -65,6 +65,7 @@ LUA;
      *
      * KEYS[1] - The queue to pop jobs from, for example: queues:foo
      * KEYS[2] - The queue to place reserved jobs on, for example: queues:foo:reserved
+     * KEYS[3] - The notify queue
      * ARGV[1] - The time at which the reserved job will expire
      *
      * @return string
@@ -77,11 +78,14 @@ LUA;
 local jobs = redis.call('zrange', KEYS[1], 0, 0)
 
 while #jobs > 0 do
+    -- Check that no one has reserved the job
     if (redis.call('zrem', KEYS[1], jobs[1]) > 0) then
+        -- Increment the attempt count and place job on the reserved queue...
         local reserved = cjson.decode(jobs[1])
         reserved['attempts'] = reserved['attempts'] + 1
         reserved = cjson.encode(reserved)
         redis.call('zadd', KEYS[2], ARGV[1], reserved)
+        redis.call('lpop', KEYS[3])
         return {jobs[1], reserved}
     end
     jobs = redis.call('zrange', KEYS[1], 0, 0)

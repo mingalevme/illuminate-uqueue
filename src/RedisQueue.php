@@ -74,13 +74,27 @@ class RedisQueue extends \Illuminate\Queue\RedisQueue
      * Retrieve the next job from the queue.
      *
      * @param  string  $queue
+     * @param  bool  $block
      * @return array
      */
-    protected function retrieveNextJob($queue)
+    protected function retrieveNextJob($queue, $block = true)
     {
-        return $this->getConnection()->eval(
-            LuaScripts::pop(), 2, $queue, $queue.':reserved',
+        $nextJob = $this->getConnection()->eval(
+            LuaScripts::pop(), 3, $queue, $queue.':reserved', $queue.':notify',
             $this->availableAt($this->retryAfter)
         );
+
+        if (empty($nextJob)) {
+            return [null, null];
+        }
+
+        [$job, $reserved] = $nextJob;
+
+        if (! $job && ! is_null($this->blockFor) && $block &&
+            $this->getConnection()->blpop([$queue.':notify'], $this->blockFor)) {
+            return $this->retrieveNextJob($queue, false);
+        }
+
+        return [$job, $reserved];
     }
 }

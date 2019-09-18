@@ -6,15 +6,15 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateJobsTable extends Migration
 {
+    const TABLE_NAME = 'jobs';
+
     /**
-     * Run the migrations.
-     *
      * @return void
      */
     public function up()
     {
-        if (!Schema::hasTable('jobs')) {
-            Schema::create('jobs', function (Blueprint $table) {
+        if (!Schema::hasTable(self::TABLE_NAME)) {
+            Schema::create(self::TABLE_NAME, function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('queue')->index();
                 $table->longText('payload');
@@ -27,12 +27,10 @@ class CreateJobsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
-     *
      * @return void
      */
     public function down()
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists(self::TABLE_NAME);
     }
 }

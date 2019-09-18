@@ -1,5 +1,5 @@
 # illuminate-uqueue
-Provides support for uniqueable queues for Laravel/Lumen 5.5 and higher.
+Provides support for uniqueable queues for Laravel/Lumen 5.5+.
 
 # Travis CI
 [![Build Status](https://travis-ci.org/mingalevme/illuminate-uqueue.svg?branch=master)](https://travis-ci.org/mingalevme/illuminate-uqueue)
@@ -15,7 +15,7 @@ Provides support for uniqueable queues for Laravel/Lumen 5.5 and higher.
 
 1. ```composer require mingalevme/illuminate-uqueue```
 
-2. In Laravel 5.5, the service provider and facade will automatically get registered.
+2. In Laravel 5.5+, the service provider and facade will automatically get registered.
 
    For older versions of the framework or Lumen, follow the steps below:
    

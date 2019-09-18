@@ -113,7 +113,9 @@ class DatabaseQueue extends \Illuminate\Queue\DatabaseQueue
      */
     protected function pushToDatabase($queue, $payload, $delay = 0, $attempts = 0)
     {
-        $uniqueId = array_get($payload, 'unique_id');
+        $uniqueId = isset($payload['unique_id'])
+            ? $payload['unique_id']
+            : null;
 
         while (true) {
             try {
