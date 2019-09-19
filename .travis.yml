@@ -11,8 +11,7 @@ php:
 
 env:
   - ILLUMINATE_VERSION="5"
-  - ILLUMINATE_VERSION="6" REDIS_CLIENT="predis"
-  - ILLUMINATE_VERSION="6" REDIS_CLIENT="phpredis"
+  - ILLUMINATE_VERSION="6"
 
 before_install:
   - docker pull postgres:latest

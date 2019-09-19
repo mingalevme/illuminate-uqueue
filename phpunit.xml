@@ -24,6 +24,7 @@
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="REDIS_PORT" value="63790" />
+        <env name="REDIS_CLIENT" value="predis" />
     </php>
     <!--logging>
         <log type="tap" target="build/report.tap"/>

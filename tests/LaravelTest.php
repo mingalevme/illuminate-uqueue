@@ -21,9 +21,6 @@ class LaravelTest extends LaravelTestCase
         /** @var Application $app */
         $app = require __DIR__ . '/../vendor/laravel/laravel/bootstrap/app.php';
         $app->make(Kernel::class)->bootstrap();
-        $app->instance(\Redis::class, null);
-        $app->forgetInstance(\Redis::class);
-        $app->make('config')->set(['app.aliases.Redis' => null]);
         $app->register(RedisServiceProvider::class);
         $app->register(LaravelUQueueServiceProvider::class);
         return $app;
