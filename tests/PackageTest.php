@@ -248,7 +248,7 @@ trait PackageTest
     {
         Queue::setDefaultDriver('redis');
 
-        Redis::command('DEL', ['queues:default']);
+        Redis::connection()->command('DEL', ['queues:default']);
 
         $id1 = Queue::push(new SimpleJob(['foo' => 'bar']));
         $id2 = Queue::push(new SimpleJob(['foo' => 'bar']));
@@ -257,7 +257,7 @@ trait PackageTest
         $this->assertNotNull($id2);
         $this->assertNotSame($id1, $id2);
 
-        $this->assertCount(2, Redis::command('ZRANGE', ['queues:default', 0, -1]));
+        $this->assertCount(2, Redis::connection()->command('ZRANGE', ['queues:default', 0, -1]));
 
         SimpleJob::$test = null;
 
@@ -273,7 +273,7 @@ trait PackageTest
     {
         Queue::setDefaultDriver('redis');
 
-        Redis::command('DEL', ['queues:default']);
+        Redis::connection()->command('DEL', ['queues:default']);
 
         $id1 = Queue::push(new UniqueableJob(['foo' => 'bar']));
         $id2 = Queue::push(new UniqueableJob(['foo' => 'bar']));
@@ -282,13 +282,13 @@ trait PackageTest
         $this->assertNotNull($id2);
         $this->assertSame($id1, $id2);
 
-        $this->assertCount(1, Redis::command('ZRANGE', ['queues:default', 0, -1]));
+        $this->assertCount(1, Redis::connection()->command('ZRANGE', ['queues:default', 0, -1]));
 
         $id3 = Queue::push(new UniqueableJob(['foo2' => 'bar2']));
 
         $this->assertNotSame($id1, $id3);
 
-        $this->assertCount(2, Redis::command('ZRANGE', ['queues:default', 0, -1]));
+        $this->assertCount(2, Redis::connection()->command('ZRANGE', ['queues:default', 0, -1]));
 
         UniqueableJob::$test = null;
 

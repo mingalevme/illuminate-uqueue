@@ -11,7 +11,8 @@ php:
 
 env:
   - ILLUMINATE_VERSION="5"
-  - ILLUMINATE_VERSION="6"
+  - ILLUMINATE_VERSION="6" REDIS_CLIENT="predis"
+  - ILLUMINATE_VERSION="6" REDIS_CLIENT="phpredis"
 
 before_install:
   - docker pull postgres:latest
@@ -28,6 +29,7 @@ install:
   - composer global require hirak/prestissimo
   - cp tests/composer-illuminate-${ILLUMINATE_VERSION}.json composer.json
   - COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-source
+  - grep -v "'Redis' => " ./vendor/laravel/laravel/config/app.php > /tmp/app.php && mv /tmp/app.php ./vendor/laravel/laravel/config/app.php
 #  - COMPOSER_MEMORY_LIMIT=-1 composer require --no-interaction laravel/${ILLUMINATE_FRAMEWORK,,}:^${ILLUMINATE_VERSION}.0
 
 script:
