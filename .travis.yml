@@ -30,6 +30,7 @@ install:
   - cp tests/composer-illuminate-${ILLUMINATE_VERSION}.json composer.json
   - COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-source
   - grep -v "'Redis' => " ./vendor/laravel/laravel/config/app.php > /tmp/app.php && mv /tmp/app.php ./vendor/laravel/laravel/config/app.php
+  - php -m | grep redis > /dev/null || echo '' | pecl install redis > /dev/null || true
 #  - COMPOSER_MEMORY_LIMIT=-1 composer require --no-interaction laravel/${ILLUMINATE_FRAMEWORK,,}:^${ILLUMINATE_VERSION}.0
 
 script:
