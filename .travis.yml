@@ -37,11 +37,12 @@ before_install:
   - docker run --name redis -d -p 63790:6379 redis:latest
   - mkdir -p /tmp/coverage
   - export PHP_VERSION=`php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;"`
+  - export COMPOSER_MEMORY_LIMIT=-1
 
 install:
   - travis_retry composer self-update
   - composer global require hirak/prestissimo
-  - COMPOSER_MEMORY_LIMIT=-1 composer require "laravel/laravel:^${ILLUMINATE_VERSION}.0" "laravel/lumen:^${ILLUMINATE_VERSION}.0" --no-interaction --prefer-source
+  - travis_wait composer require "laravel/laravel:^${ILLUMINATE_VERSION}.0" "laravel/lumen:^${ILLUMINATE_VERSION}.0" --no-interaction --prefer-source
 
 script:
   - vendor/bin/phpunit --coverage-php /tmp/coverage/laravel.cov tests/LaravelTest.php
