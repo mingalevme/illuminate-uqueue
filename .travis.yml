@@ -6,12 +6,27 @@ services:
 language: php
 
 php:
-  - '7.2'
-  - '7.3'
+  - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
 
 env:
-  - ILLUMINATE_VERSION="5"
-  - ILLUMINATE_VERSION="6"
+  - ILLUMINATE_VERSION=5
+  - ILLUMINATE_VERSION=6
+  - ILLUMINATE_VERSION=7
+  - ILLUMINATE_VERSION=8
+
+jobs:
+  exclude:
+    - php: 7.1
+      env: ILLUMINATE_VERSION=6
+    - php: 7.1
+      env: ILLUMINATE_VERSION=7
+    - php: 7.1
+      env: ILLUMINATE_VERSION=8
+    - php: 7.2
+      env: ILLUMINATE_VERSION=8
 
 before_install:
   - docker pull postgres:latest
@@ -26,8 +41,7 @@ before_install:
 install:
   - travis_retry composer self-update
   - composer global require hirak/prestissimo
-  - cp tests/composer-illuminate-${ILLUMINATE_VERSION}.json composer.json
-  - COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction --prefer-source
+  - COMPOSER_MEMORY_LIMIT=-1 composer require "laravel/laravel:^${ILLUMINATE_VERSION}.0" "laravel/lumen:^${ILLUMINATE_VERSION}.0" --no-interaction --prefer-source
 
 script:
   - vendor/bin/phpunit --coverage-php /tmp/coverage/laravel.cov tests/LaravelTest.php

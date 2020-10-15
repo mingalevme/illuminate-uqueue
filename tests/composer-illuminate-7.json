@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "illuminate/queue": "^6.0"
+        "illuminate/queue": "^7.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=7.0",
@@ -26,8 +26,8 @@
         "predis/predis": "^2.0",
         "doctrine/dbal": "^2.8",
         "phpunit/phpcov": ">=5.0",
-        "laravel/laravel": "^6.0",
-        "laravel/lumen": "^6.0"
+        "laravel/laravel": "^7.0",
+        "laravel/lumen": "^7.0"
     },
     "autoload": {
         "psr-4": {

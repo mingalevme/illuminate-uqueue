@@ -19,3 +19,5 @@ temp/
 .idea/
 coverage.xml
 
+.phpunit.result.cache
+

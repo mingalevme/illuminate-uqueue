@@ -2,6 +2,7 @@
 
 namespace Mingalevme\Illuminate\UQueue\Connectors;
 
+use Illuminate\Contracts\Queue\Queue;
 use Mingalevme\Illuminate\UQueue\RedisQueue;
 
 class RedisConnector extends \Illuminate\Queue\Connectors\RedisConnector
@@ -10,7 +11,7 @@ class RedisConnector extends \Illuminate\Queue\Connectors\RedisConnector
      * Establish a queue connection.
      *
      * @param  array  $config
-     * @return \Illuminate\Contracts\Queue\Queue
+     * @return Queue
      */
     public function connect(array $config)
     {

@@ -275,6 +275,8 @@ trait PackageTest
 
         Redis::connection()->command('DEL', ['queues:default']);
 
+        $this->assertCount(0, Redis::connection()->command('ZRANGE', ['queues:default', 0, -1]));
+
         $id1 = Queue::push(new UniqueableJob(['foo' => 'bar']));
         $id2 = Queue::push(new UniqueableJob(['foo' => 'bar']));
 
