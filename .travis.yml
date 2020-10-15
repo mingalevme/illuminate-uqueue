@@ -19,14 +19,16 @@ env:
 
 jobs:
   exclude:
-    - php: 7.1
-      env: ILLUMINATE_VERSION=6
-    - php: 7.1
-      env: ILLUMINATE_VERSION=7
-    - php: 7.1
-      env: ILLUMINATE_VERSION=8
-    - php: 7.2
-      env: ILLUMINATE_VERSION=8
+    - env: ILLUMINATE_VERSION=6
+      php: 7.1
+    - env: ILLUMINATE_VERSION=7
+      php: 7.1
+    - env: ILLUMINATE_VERSION=7 # https://github.com/composer/composer/issues/7051
+      php: 7.2
+    - env: ILLUMINATE_VERSION=8
+      php: 7.1
+    - env: ILLUMINATE_VERSION=8
+      php: 7.2
 
 before_install:
   - docker pull postgres:latest
